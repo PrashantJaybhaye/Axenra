@@ -20,11 +20,11 @@ function ChatBoxInput() {
         alt="Logo" 
         width={250} 
         height={250}
-        className="max-w-[180px] sm:max-w-[200px] md:max-w-[250px] mb-6" 
+        className="w-[180px] sm:w-[200px] md:w-[250px] mb-6" 
       />
-      <div className="p-2 w-full max-w-[95%] sm:max-w-[42rem] border rounded-2xl">
+      <div className="p-2 w-full max-w-[95%] sm:max-w-2xl border rounded-2xl">
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 sm:justify-between sm:items-end">
-          <Tabs defaultValue="Search" className="w-full sm:max-w-[400px]">
+          <Tabs defaultValue="Search" className="w-full sm:w-[400px]">
             <TabsContent value="Search">
               <input
                 type="text"
