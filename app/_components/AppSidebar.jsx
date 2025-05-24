@@ -77,7 +77,7 @@ export function AppSidebar() {
           <p className="text-gray-400">
             Upgrade for image upload, Smarter AI,and more Copilot
           </p>
-          <Button variant={"link"} className="text-gray-500">
+          <Button variant={"link"} className="text-gray-500 -ml-3">
             Learn More
           </Button>
         </div>
