@@ -14,54 +14,53 @@ import { Button } from "@/components/ui/button";
 
 function ChatBoxInput() {
   return (
-    <div className="flex flex-col h-screen items-center justify-center w-full -ml-0 sm:-ml-6 px-4 sm:px-6">
+    <div className="flex flex-col h-screen items-center justify-center w-full -ml-6 ">
       <Image 
         src={"/raw2.png"} 
         alt="Logo" 
         width={250} 
         height={250}
-        className="w-[180px] sm:w-[200px] md:w-[250px] mb-6" 
+        className="w-[300px] sm:w-[250px] md:w-[250px]"
       />
-      <div className="p-2 w-full max-w-[95%] sm:max-w-2xl border rounded-2xl">
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 sm:justify-between sm:items-end">
+      <div className="p-2 w-full max-w-2xl border rounded-2xl">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 sm:justify-between sm:items-end">
           <Tabs defaultValue="Search" className="w-full sm:w-[400px]">
             <TabsContent value="Search">
               <input
                 type="text"
                 placeholder="Ask anything..."
-                className="w-full p-3 sm:p-4 outline-none border-none text-sm sm:text-base"
+                className="w-full p-3 sm:p-4 outline-none border-none sm:text-base"
               />
             </TabsContent>
             <TabsContent value="Research">
               <input
                 type="text"
                 placeholder="Research anything..."
-                className="w-full p-3 sm:p-4 outline-none border-none text-sm sm:text-base"
+                className="w-full p-3 sm:p-4 outline-none border-none sm:text-base"
               />
             </TabsContent>
-            <TabsList className="flex w-full sm:w-auto">
-              <TabsTrigger value="Search" className="text-primary flex-1 sm:flex-none">
-                <SearchCheck className="size-4 sm:size-5" /> 
-                <span className="ml-1 text-xs sm:text-sm">Search</span>
+            <TabsList className='flex max-sm:w-full'>
+              <TabsTrigger value="Search" className="text-primary">
+                <SearchCheck className="size-4 sm:size-5" /> Search
               </TabsTrigger>
-              <TabsTrigger value="Research" className="text-primary flex-1 sm:flex-none">
-                <AtomIcon className="size-4 sm:size-5" /> 
-                <span className="ml-1 text-xs sm:text-sm">Research</span>
+              <TabsTrigger value="Research" className="text-primary">
+                <AtomIcon className="size-4 sm:size-5"/> Research
               </TabsTrigger>
             </TabsList>
           </Tabs>
 
-          <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-1 sm:gap-2">
-            <Button variant="ghost" size="sm" className="sm:size-9">
+          <div className="flex items-center justify-end gap-0 sm:gap-1">
+            <Button variant="ghost">
               <Globe className="text-gray-500 size-4 sm:size-5" />
             </Button>
-            <Button variant="ghost" size="sm" className="sm:size-9">
+            <Button variant="ghost">
               <Paperclip className="text-gray-500 size-4 sm:size-5" />
             </Button>
-            <Button variant="ghost" size="sm" className="sm:size-9">
+            <Button variant="ghost">
               <Mic className="text-gray-500 size-4 sm:size-5" />
             </Button>
-            <Button size="sm" className="sm:size-9">
+
+            <Button>
               <AudioLines className="text-white size-4 sm:size-5" />
             </Button>
           </div>
