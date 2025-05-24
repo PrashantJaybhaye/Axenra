@@ -53,7 +53,9 @@ export function AppSidebar() {
                 <SidebarMenuItem key={index}>
                   <SidebarMenuButton
                     asChild
-                    className={`p-5 py-5 hover:bg-transparent hover:font-bold ${path?.includes(menu.path) && 'font-bold'}
+                    className={`p-5 py-5 hover:bg-transparent hover:font-bold ${
+                      path?.includes(menu.path) && "font-bold"
+                    }
                     `}
                   >
                     <a href={menu.path} className="">
@@ -71,9 +73,13 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter className="bg-accent">
         <div className="p-3 ">
-            <h2 className="text-gray-500 ">Try Now</h2>
-            <p className="text-gray-400">Upgrade for image upload, Smarter AI,and more Copilot</p>
-            <Button variant={"link"} className="text-gray-500">Learn More</Button>
+          <h2 className="text-gray-500 ">Try Now</h2>
+          <p className="text-gray-400">
+            Upgrade for image upload, Smarter AI,and more Copilot
+          </p>
+          <Button variant={"link"} className="text-gray-500">
+            Learn More
+          </Button>
         </div>
       </SidebarFooter>
     </Sidebar>
