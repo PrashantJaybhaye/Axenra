@@ -25,11 +25,11 @@ function ChatBoxInput() {
   return (
     <div className="flex flex-col h-screen items-center justify-center w-full -ml-6 ">
       <Image
-        src={"/raw2.png"}
+        src={"/logo2.png"}
         alt="Logo"
         width={250}
         height={250}
-        className="w-[300px] sm:w-[250px] md:w-[250px]"
+        className="w-[300px] sm:w-[250px] md:w-[250px] mb-3"
       />
       <div className="p-2 w-full max-w-2xl border rounded-2xl">
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 sm:justify-between sm:items-end">

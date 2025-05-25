@@ -11,7 +11,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { BookCopy, Ghost, LogIn, Orbit, Search } from "lucide-react";
+import {
+  SignOutButton,
+  SignUpButton,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
+import { BookCopy, LogIn, Orbit, Search } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
@@ -34,12 +40,14 @@ const MenuOptions = [
   {
     title: "Sign In",
     icon: LogIn,
-    path: "#",
+    path: "/sign-in",
   },
 ];
 
 export function AppSidebar() {
   const path = usePathname();
+  const { user } = useUser();
+
   return (
     <Sidebar>
       <SidebarHeader className="bg-accent flex items-center justify-center py-2 sm:py-3 md:py-5">
@@ -55,7 +63,11 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarContent>
             <SidebarMenu>
-              {MenuOptions.map((menu, index) => (
+              {MenuOptions.filter((menu) => {
+                // Hide "Sign In" if user is logged in
+                if (menu.title === "Sign In" && user) return false;
+                return true;
+              }).map((menu, index) => (
                 <SidebarMenuItem key={index}>
                   <SidebarMenuButton
                     asChild
@@ -77,15 +89,25 @@ export function AppSidebar() {
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
-            <Button className="rounded-full mx-1 sm:mx-2 md:mx-4 my-2 sm:my-3 md:my-4 w-[calc(100%-0.5rem)] sm:w-[calc(100%-1rem)] md:w-[calc(100%-2rem)] text-sm sm:text-base">
-              Sign Up
-            </Button>
+            {!user ? (
+              <SignUpButton mode="modal">
+                <Button className="rounded-full mx-1 sm:mx-2 md:mx-4 my-2 sm:my-3 md:my-4 w-[calc(100%-0.5rem)] sm:w-[calc(100%-1rem)] md:w-[calc(100%-2rem)] text-sm sm:text-base">
+                  Sign Up
+                </Button>
+              </SignUpButton>
+            ) : (
+              <SignOutButton>
+                <Button className="rounded-full mx-1 sm:mx-2 md:mx-4 my-2 sm:my-3 md:my-4 w-[calc(100%-0.5rem)] sm:w-[calc(100%-1rem)] md:w-[calc(100%-2rem)] text-sm sm:text-base">
+                  Logout
+                </Button>
+              </SignOutButton>
+            )}
           </SidebarContent>
         </SidebarGroup>
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter className="bg-accent">
-        <div className="p-2 md:p-3 ">
+        <div className="p-2 md:p-3 flex flex-col">
           <h2 className="text-gray-500 text-sm md:text-base ">Try Now</h2>
           <p className="text-gray-400 text-sm md:text-base">
             Upgrade for image upload, Smarter AI, and more Copilot
@@ -96,6 +118,26 @@ export function AppSidebar() {
           >
             Learn More
           </Button>
+          <hr className="my-2 border-t border-gray-300" />
+          <div className="flex justify-end">
+            <UserButton
+              appearance={{
+                elements: {
+                  rootBox: "flex items-center gap-3",
+                  userButtonAvatarBox:
+                    "h-10 w-10 rounded-full ring-2 ring-accent",
+                  userButtonPopoverCard:
+                    "bg-white border border-gray-200 shadow-xl rounded-lg p-2",
+                  userButtonPopoverActionButton:
+                    "text-sm hover:bg-accent px-4 py-2 rounded-md text-left w-full transition",
+                  userButtonPopoverActionButton__signOut:
+                    "text-red-600 hover:text-red-700 font-semibold",
+                },
+              }}
+              showName={true}
+              userProfileMode="navigation"
+            />
+          </div>
         </div>
       </SidebarFooter>
     </Sidebar>

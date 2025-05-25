@@ -3,6 +3,7 @@ export const AiModelsOption = [
     id: 1,
     name: "Sonar",
     desc: "Axenra's fast model"
+  
   },
   {
     id: 2,
