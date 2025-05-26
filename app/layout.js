@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar"
 import "./globals.css";
 import { AppSidebar } from "./_components/AppSidebar";
 import { ClerkProvider } from '@clerk/nextjs'
