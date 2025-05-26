@@ -160,3 +160,125 @@
 .animate-slide-in-right {
   animation: slide-in-right 0.4s cubic-bezier(0.4,0,0.2,1);
 }
+
+.spinner-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black; /* or transparent if you want */
+  z-index: 9999;
+}
+
+.spinner {
+  width: 70.4px;
+  height: 70.4px;
+  --clr: rgb(247, 197, 159);
+  --clr-alpha: rgba(247, 197, 159, 0.1);
+  animation: spinner 1.6s infinite ease;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.spinner > div {
+  background-color: var(--clr-alpha);
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  border: 3.5px solid var(--clr);
+}
+
+.spinner div:nth-of-type(1) {
+  transform: translateZ(-35.2px) rotateY(180deg);
+}
+
+.spinner div:nth-of-type(2) {
+  transform: rotateY(-270deg) translateX(50%);
+  transform-origin: top right;
+}
+
+.spinner div:nth-of-type(3) {
+  transform: rotateY(270deg) translateX(-50%);
+  transform-origin: center left;
+}
+
+.spinner div:nth-of-type(4) {
+  transform: rotateX(90deg) translateY(-50%);
+  transform-origin: top center;
+}
+
+.spinner div:nth-of-type(5) {
+  transform: rotateX(-90deg) translateY(50%);
+  transform-origin: bottom center;
+}
+
+.spinner div:nth-of-type(6) {
+  transform: translateZ(35.2px);
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
+  }
+
+  50% {
+    transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
+  }
+
+  100% {
+    transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes textReveal {
+  0% {
+    letter-spacing: 0.25em;
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(20px);
+  }
+  100% {
+    letter-spacing: normal;
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-textReveal {
+  animation: textReveal 1s ease-out forwards;
+}
+
+@keyframes ellipsis {
+  0% { content: "."; }
+  33% { content: ".."; }
+  66% { content: "..."; }
+}
+
+.animate-ellipsis::after {
+  display: inline-block;
+  content: ".";
+  animation: dots 1.2s steps(3, end) infinite;
+}
+
+@keyframes dots {
+  0% { content: "."; }
+  33% { content: ".."; }
+  66% { content: "..."; }
+}

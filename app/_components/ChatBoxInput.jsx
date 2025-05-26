@@ -89,8 +89,30 @@ function ChatBoxInput() {
 
   if (pageLoading) {
     return (
-      <div className="fixed top-0 left-0 w-full h-full bg-black flex items-center justify-center z-50">
-        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin" />
+      <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center gap-6">
+        <div className="spinner-wrapper">
+          <div className="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <span className="relative inline-block text-center text-white/90 text-base sm:text-lg md:text-2xl font-semibold tracking-[0.15em] uppercase">
+            Launching&nbsp;
+            <span
+              className="inline-block text-transparent bg-clip-text underline underline-offset-4 decoration-primary"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, oklch(0.7009 0.201198 44.7666), oklch(0.8 0.1 44.7666))",
+              }}
+            >
+              Axenra
+            </span>
+            <span className="ml-1 animate-ellipsis"></span>
+          </span>
+        </div>
       </div>
     );
   }
