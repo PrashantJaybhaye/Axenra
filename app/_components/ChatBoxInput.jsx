@@ -1,7 +1,14 @@
+"use client";
 import Image from "next/image";
-import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import React, { useState } from "react";
 import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../components/ui/tabs";
+import {
+  ArrowRight,
   AtomIcon,
   AudioLines,
   Cpu,
@@ -10,7 +17,7 @@ import {
   Paperclip,
   SearchCheck,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,10 +25,36 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { AiModelsOption, ReasoningModels } from "@/services/Shared";
+} from "../../components/ui/dropdown-menu";
+import { AiModelsOption } from "../../services/Shared";
+import { supabase } from "../../services/Supabase";
+import { useUser } from "@clerk/nextjs";
+import { v4 as uuidv4 } from "uuid";
 
 function ChatBoxInput() {
+  const [userSearchInput, setUserSearchInput] = useState();
+  const [searchType, setSearchType] = useState("search");
+  const [loading, setLoading] = useState();
+  const { user } = useUser();
+  const onSearchQuery = async () => {
+    setLoading(true);
+    const libId = uuidv4();
+    const { data } = await supabase
+      .from("Library")
+      .insert([
+        {
+          searchInput: userSearchInput,
+          userEmail: user?.primaryEmailAddress.emailAddress,
+          type: searchType,
+          libId: libId,
+        },
+      ])
+      .select();
+    setLoading(false);
+
+    console.log(data[0]);
+  };
+
   return (
     <div className="flex flex-col h-screen items-center justify-center w-full -ml-6 ">
       <Image
@@ -39,6 +72,7 @@ function ChatBoxInput() {
                 type="text"
                 placeholder="Ask anything..."
                 className="w-full p-3 sm:p-4 outline-none border-none sm:text-base"
+                onChange={(e) => setUserSearchInput(e.target.value)}
               />
             </TabsContent>
             <TabsContent value="Research">
@@ -46,13 +80,22 @@ function ChatBoxInput() {
                 type="text"
                 placeholder="Research anything..."
                 className="w-full p-3 sm:p-4 outline-none border-none sm:text-base"
+                onChange={(e) => setUserSearchInput(e.target.value)}
               />
             </TabsContent>
             <TabsList className="flex max-sm:w-full">
-              <TabsTrigger value="Search" className="text-primary">
+              <TabsTrigger
+                value="Search"
+                className="text-primary"
+                onClick={() => setSearchType("search")}
+              >
                 <SearchCheck className="size-4 sm:size-5" /> Search
               </TabsTrigger>
-              <TabsTrigger value="Research" className="text-primary">
+              <TabsTrigger
+                value="Research"
+                className="text-primary"
+                onClick={() => setSearchType("research")}
+              >
                 <AtomIcon className="size-4 sm:size-5" /> Research
               </TabsTrigger>
             </TabsList>
@@ -127,12 +170,18 @@ function ChatBoxInput() {
             </div>
 
             <div className="relative group inline-block">
-              <Button>
-                <AudioLines className="text-white size-4 sm:size-5" />
+              <Button
+                onClick={() => {
+                  userSearchInput ? onSearchQuery() : null;
+                }}
+              >
+                {!userSearchInput ? (
+                  <AudioLines className="text-white size-4 sm:size-5" />
+                  
+                ) : (
+                  <ArrowRight className="text-white size-4 sm:size-5" disabled={loading}/>
+                )}
               </Button>
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 text-xs sm:text-xs bg-black text-white rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                Voice Mode
-              </div>
             </div>
           </div>
         </div>
