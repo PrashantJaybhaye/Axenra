@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import {
   Tabs,
   TabsContent,
@@ -32,10 +33,19 @@ import { useUser } from "@clerk/nextjs";
 import { v4 as uuidv4 } from "uuid";
 
 function ChatBoxInput() {
+  const [pageLoading, setPageLoading] = useState(true);
   const [userSearchInput, setUserSearchInput] = useState();
   const [searchType, setSearchType] = useState("search");
   const [loading, setLoading] = useState();
   const { user } = useUser();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPageLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const onSearchQuery = async () => {
     setLoading(true);
     const libId = uuidv4();
@@ -54,6 +64,14 @@ function ChatBoxInput() {
 
     console.log(data[0]);
   };
+
+  if (pageLoading) {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full bg-black flex items-center justify-center z-50">
+        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-screen items-center justify-center w-full -ml-6 ">
@@ -177,9 +195,11 @@ function ChatBoxInput() {
               >
                 {!userSearchInput ? (
                   <AudioLines className="text-white size-4 sm:size-5" />
-                  
                 ) : (
-                  <ArrowRight className="text-white size-4 sm:size-5" disabled={loading}/>
+                  <ArrowRight
+                    className="text-white size-4 sm:size-5"
+                    disabled={loading}
+                  />
                 )}
               </Button>
             </div>
