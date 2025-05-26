@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Tabs,
   TabsContent,
@@ -29,7 +28,7 @@ import {
 } from "../../components/ui/dropdown-menu";
 import { AiModelsOption } from "../../services/Shared";
 import { supabase } from "../../services/Supabase";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 import { v4 as uuidv4 } from "uuid";
 
 function ChatBoxInput() {
@@ -37,14 +36,37 @@ function ChatBoxInput() {
   const [userSearchInput, setUserSearchInput] = useState();
   const [searchType, setSearchType] = useState("search");
   const [loading, setLoading] = useState();
+  const [showLoginToast, setShowLoginToast] = useState(false);
   const { user } = useUser();
+  const clerk = useClerk();
 
+  // Hide loader after 2 seconds as a fallback
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setPageLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
+    const timeout = setTimeout(() => setPageLoading(false), 2000);
+    return () => clearTimeout(timeout);
   }, []);
+
+  // Hide loader when image loads or errors
+  const handleImageReady = () => setPageLoading(false);
+
+  // Hide toast after 2 seconds
+  useEffect(() => {
+    if (showLoginToast) {
+      const timer = setTimeout(() => setShowLoginToast(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showLoginToast]);
+
+  // Show toast and then open Clerk sign up modal
+  useEffect(() => {
+    if (showLoginToast) {
+      const timer = setTimeout(() => {
+        setShowLoginToast(false);
+        clerk.openSignUp();
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [showLoginToast, clerk]);
 
   const onSearchQuery = async () => {
     setLoading(true);
@@ -75,12 +97,27 @@ function ChatBoxInput() {
 
   return (
     <div className="flex flex-col h-screen items-center justify-center w-full -ml-6 ">
+      {/* Toast Notification */}
+      {showLoginToast && (
+        <div className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[9999] w-[90vw] sm:w-auto max-w-sm md:max-w-md bg-neutral-900 text-white px-4 sm:px-6 py-3 rounded-lg shadow-xl border border-neutral-700 flex items-center gap-3 animate-slide-in-right text-sm md:text-base">
+          <span className="text-yellow-400 text-lg">⚠️</span>
+          <div className="flex flex-col">
+            <span className="font-semibold">Login Required</span>
+            <span className="text-neutral-300 text-xs md:text-sm">
+              Please log in to continue.
+            </span>
+          </div>
+        </div>
+      )}
       <Image
         src={"/logo2.png"}
         alt="Logo"
         width={250}
         height={250}
         className="w-[300px] sm:w-[250px] md:w-[250px] mb-3"
+        onLoad={handleImageReady}
+        onError={handleImageReady}
+        priority
       />
       <div className="p-2 w-full max-w-2xl border rounded-2xl">
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 sm:justify-between sm:items-end">
@@ -91,6 +128,17 @@ function ChatBoxInput() {
                 placeholder="Ask anything..."
                 className="w-full p-3 sm:p-4 outline-none border-none sm:text-base"
                 onChange={(e) => setUserSearchInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    if (!user) {
+                      setShowLoginToast(true);
+                      return;
+                    }
+                    if (userSearchInput) {
+                      onSearchQuery();
+                    }
+                  }
+                }}
               />
             </TabsContent>
             <TabsContent value="Research">
@@ -99,6 +147,17 @@ function ChatBoxInput() {
                 placeholder="Research anything..."
                 className="w-full p-3 sm:p-4 outline-none border-none sm:text-base"
                 onChange={(e) => setUserSearchInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    if (!user) {
+                      setShowLoginToast(true);
+                      return;
+                    }
+                    if (userSearchInput) {
+                      onSearchQuery();
+                    }
+                  }
+                }}
               />
             </TabsContent>
             <TabsList className="flex max-sm:w-full">
@@ -190,7 +249,13 @@ function ChatBoxInput() {
             <div className="relative group inline-block">
               <Button
                 onClick={() => {
-                  userSearchInput ? onSearchQuery() : null;
+                  if (!user) {
+                    setShowLoginToast(true);
+                    return;
+                  }
+                  if (userSearchInput) {
+                    onSearchQuery();
+                  }
                 }}
               >
                 {!userSearchInput ? (
