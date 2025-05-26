@@ -14,7 +14,6 @@ import {
 import {
   SignOutButton,
   SignUpButton,
-  UserButton,
   useUser,
 } from "@clerk/nextjs";
 import { BookCopy, LogIn, Orbit, Search } from "lucide-react";
@@ -49,17 +48,17 @@ export function AppSidebar() {
   const { user } = useUser();
 
   return (
-    <Sidebar>
-      <SidebarHeader className="bg-accent flex items-center justify-center py-2 sm:py-3 md:py-5">
+    <Sidebar className="bg-[#202222] border-r border-[#232323] min-h-screen">
+      <SidebarHeader className="bg-[#202222] flex items-center justify-center py-2 sm:py-3 md:py-5 border-b border-[#232323]">
         <Image
-          src={"/logo2.png"}
+          src={"/logo.png"}
           alt="logo"
           width={140}
           height={100}
           className="w-[120px] sm:w-[140px] md:w-[180px]"
         />
       </SidebarHeader>
-      <SidebarContent className="bg-accent">
+      <SidebarContent className="bg-[#202222]">
         <SidebarGroup>
           <SidebarContent>
             <SidebarMenu>
@@ -71,8 +70,8 @@ export function AppSidebar() {
                 <SidebarMenuItem key={index}>
                   <SidebarMenuButton
                     asChild
-                    className={`p-2 sm:p-3 md:p-5 md:py-5 hover:bg-transparent hover:font-bold ${
-                      path?.includes(menu.path) && "font-bold"
+                    className={`p-2 sm:p-3 md:p-5 md:py-5 hover:bg-[#2D2F2F] hover:font-bold text-white ${
+                      path?.includes(menu.path) && "font-bold text-primary"
                     }
                     `}
                   >
@@ -106,38 +105,18 @@ export function AppSidebar() {
         </SidebarGroup>
         <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter className="bg-accent">
+      <SidebarFooter className="bg-[#202222] border-t border-[#2A2C2C]">
         <div className="p-2 md:p-3 flex flex-col">
-          <h2 className="text-gray-500 text-sm md:text-base ">Try Now</h2>
-          <p className="text-gray-400 text-sm md:text-base">
+          <h2 className="text-gray-400 text-sm md:text-base ">Try Now</h2>
+          <p className="text-gray-500 text-sm md:text-base">
             Upgrade for image upload, Smarter AI, and more Copilot
           </p>
           <Button
             variant={"link"}
-            className="text-gray-500 -ml-4 text-sm md:text-base"
+            className="text-gray-400 -ml-4 text-sm md:text-base mb-3"
           >
             Learn More
           </Button>
-          <hr className="my-2 border-t border-gray-300" />
-          <div className="flex justify-end">
-            <UserButton
-              appearance={{
-                elements: {
-                  rootBox: "flex items-center gap-3",
-                  userButtonAvatarBox:
-                    "h-10 w-10 rounded-full ring-2 ring-accent",
-                  userButtonPopoverCard:
-                    "bg-white border border-gray-200 shadow-xl rounded-lg p-2",
-                  userButtonPopoverActionButton:
-                    "text-sm hover:bg-accent px-4 py-2 rounded-md text-left w-full transition",
-                  userButtonPopoverActionButton__signOut:
-                    "text-red-600 hover:text-red-700 font-semibold",
-                },
-              }}
-              showName={true}
-              userProfileMode="navigation"
-            />
-          </div>
         </div>
       </SidebarFooter>
     </Sidebar>
