@@ -23,11 +23,12 @@ function SearchQueryResult() {
     console.log(Library[0]);
     setSearchInputRecord(Library[0]);
   };
+  
 
   return (
     <div>
       <Header searchInputRecord={searchInputRecord} />
-      <div className="px-10 md:px-20 lg:px-36 xl:px-56 mt-20">
+      <div className="sm:px-10 md:px-20 lg:px-36 xl:px-56 max-sm:-ml-9 max-sm:-mt-6">
         <DisplayResult searchInputRecord={searchInputRecord} />
       </div>
     </div>

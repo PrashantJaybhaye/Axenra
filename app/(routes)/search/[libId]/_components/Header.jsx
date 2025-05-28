@@ -6,7 +6,7 @@ import { Button } from "../../../../../components/ui/button";
 
 function Header({ searchInputRecord }) {
   return (
-    <div className="w-full p-4 border-b border-gray-400 text-white flex flex-row justify-between items-center gap-4 -ml-6">
+    <div className="w-full p-4 sm:border-b sm:border-gray-400 text-white flex flex-row justify-between items-center gap-4 -ml-5">
       {/* User Info & Created Time */}
       <div className="flex items-center gap-2 ">
         <UserButton />
