@@ -247,7 +247,7 @@ function SidebarTrigger({ className, onClick, ...props }) {
         "p-0",
         "flex items-center justify-center",
         "z-[9999]",
-        "hover:bg-transparent !text-white hover:!text-white",
+        "hover:bg-transparent !text-white hover:!text-white mt-2 mr-1 sm:mr-2 sm:mt-3 md:mt-4",
         className
       )}
       onClick={(event) => {

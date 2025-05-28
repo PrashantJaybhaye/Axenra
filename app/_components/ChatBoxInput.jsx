@@ -15,6 +15,7 @@ import {
   Globe,
   Mic,
   Paperclip,
+  Router,
   SearchCheck,
 } from "lucide-react";
 import { Button } from "../../components/ui/button";
@@ -30,6 +31,7 @@ import { AiModelsOption } from "../../services/Shared";
 import { supabase } from "../../services/Supabase";
 import { useUser, useClerk, UserButton } from "@clerk/nextjs";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/navigation";
 
 function ChatBoxInput() {
   const [pageLoading, setPageLoading] = useState(true);
@@ -39,6 +41,7 @@ function ChatBoxInput() {
   const [showLoginToast, setShowLoginToast] = useState(false);
   const { user } = useUser();
   const clerk = useClerk();
+  const router = useRouter();
 
   // Hide loader after 2 seconds as a fallback
   useEffect(() => {
@@ -82,6 +85,7 @@ function ChatBoxInput() {
   }, []);
 
   const onSearchQuery = async () => {
+    if (loading) return; // Prevent duplicate requests
     setLoading(true);
     const libId = uuidv4();
     const { data } = await supabase
@@ -97,6 +101,7 @@ function ChatBoxInput() {
       .select();
     setLoading(false);
 
+    router.push("/search/" + libId);
     console.log(data[0]);
   };
 
@@ -204,7 +209,7 @@ function ChatBoxInput() {
                   className="w-full p-3 sm:p-4 rounded-lg text-white outline-none border-none transition placeholder:text-gray-400 sm:text-base"
                   onChange={(e) => setUserSearchInput(e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") {
+                    if (e.key === "Enter" && !loading) { // Prevent while loading
                       if (!user) {
                         setShowLoginToast(true);
                         return;
@@ -223,7 +228,7 @@ function ChatBoxInput() {
                   className="w-full p-3 sm:p-4 rounded-lg text-white outline-none border-none transition placeholder:text-gray-400 sm:text-base"
                   onChange={(e) => setUserSearchInput(e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") {
+                    if (e.key === "Enter" && !loading) { // Prevent while loading
                       if (!user) {
                         setShowLoginToast(true);
                         return;
@@ -324,6 +329,7 @@ function ChatBoxInput() {
               <div className="relative group inline-block">
                 <Button
                   onClick={() => {
+                    if (loading) return; // Prevent while loading
                     if (!user) {
                       setShowLoginToast(true);
                       return;
@@ -332,6 +338,7 @@ function ChatBoxInput() {
                       onSearchQuery();
                     }
                   }}
+                  disabled={loading}
                 >
                   {!userSearchInput ? (
                     <AudioLines className="text-white size-4 sm:size-5" />
