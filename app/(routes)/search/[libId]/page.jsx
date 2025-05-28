@@ -27,7 +27,7 @@ function SearchQueryResult() {
 
   return (
     <div>
-      <Header searchInputRecord={searchInputRecord} />
+      <Header searchInputRecord={searchInputRecord}/>
       <div className="sm:px-10 md:px-20 lg:px-36 xl:px-56 max-sm:-ml-9 max-sm:-mt-6">
         <DisplayResult searchInputRecord={searchInputRecord} />
       </div>

@@ -4,15 +4,30 @@ import moment from "moment";
 import React from "react";
 import { Button } from "../../../../../components/ui/button";
 
+const formatShortTimeAgo = (date) => {
+  const now = moment();
+  const input = moment(date);
+  const diff = moment.duration(now.diff(input));
+
+  const minutes = Math.floor(diff.asMinutes());
+  const hours = Math.floor(diff.asHours());
+  const days = Math.floor(diff.asDays());
+
+  if (minutes < 1) return "Just now";
+  if (minutes < 60) return `${minutes} min ago`;
+  if (hours < 24) return `${hours} hrs ago`;
+  return `${days} d ago`;
+};
+
 function Header({ searchInputRecord }) {
   return (
-    <div className="w-full p-4 sm:border-b sm:border-gray-400 text-white flex flex-row justify-between items-center gap-4 -ml-5">
+    <div className="w-full p-3 sm:p-4 sm:border-b sm:border-gray-400 text-white flex flex-row justify-between items-center gap-4 ">
       {/* User Info & Created Time */}
-      <div className="flex items-center gap-2 ">
+      <div className="flex items-center gap-2 -ml-5">
         <UserButton />
-        <div className="flex items-center gap-1 text-gray-400 text-sm ">
-          <Clock size={16} className="mt-1" />
-          <h2>{moment(searchInputRecord?.created_at).fromNow()}</h2>
+        <div className="flex items-center gap-1 text-gray-400 text-xs ">
+          <Clock size={16} />
+          <h2>{formatShortTimeAgo(searchInputRecord?.created_at)}</h2>
         </div>
       </div>
 
