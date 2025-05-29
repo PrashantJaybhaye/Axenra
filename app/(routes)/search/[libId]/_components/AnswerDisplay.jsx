@@ -9,7 +9,7 @@ function AnswerDisplay({ searchResult }) {
         {webResult?.map((item, index) => (
           <div
             key={index}
-            className="p-3 rounded-lg  bg-accent hover:bg-accent-foreground w-[200px] cursor-pointer"
+            className="p-3 rounded-lg  bg-accent hover:bg-accent-foreground sm:w-[200px] w-[180px] cursor-pointer"
             onClick={() => window.open(item?.profile?.url,'_blank')}
           >
             <div className="flex gap-2 items-center">

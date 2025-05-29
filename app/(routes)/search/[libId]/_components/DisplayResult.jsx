@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import AnswerDisplay from "./AnswerDisplay";
 import axios from "axios";
 import { SEARCH_RESULT } from "../../../../../services/Shared";
+import { supabase } from "../../../../../services/Supabase";
+import { useParams } from "next/navigation";
 
 const tabs = [
   {
@@ -32,19 +34,45 @@ const tabs = [
 function DisplayResult({ searchInputRecord }) {
   const [activeTab, setActiveTab] = useState("Answer");
   const [searchResult, setSearchResult] = useState(SEARCH_RESULT);
+  const { libId } = useParams();
 
   useEffect(() => {
     // update this method
-    // searchInputRecord&&GetSearchApiResult()
+    searchInputRecord && GetSearchApiResult();
   }, [searchInputRecord]);
 
   const GetSearchApiResult = async () => {
-    const result = await axios.post("/api/brave-search-api", {
-      searchInput: searchInputRecord?.searchInput,
-      searchType: searchInputRecord?.type,
-    });
-    console.log(result.data);
-    console.log(JSON.stringify(result.data));
+    // const result = await axios.post("/api/brave-search-api", {
+    //   searchInput: searchInputRecord?.searchInput,
+    //   searchType: searchInputRecord?.type,
+    // });
+    // console.log(result.data);
+
+    const searchResp = SEARCH_RESULT;
+
+    //save to DB
+    const formattedSearchResp = searchResp?.web?.results?.map(
+      (item, index) => ({
+        title: item?.title,
+        description: item?.description,
+        long_namme: item?.profile?.long_name,
+        img: item?.profile?.img,
+        url: item?.url,
+        thumbnail: item?.thumbnail?.src,
+      })
+    );
+    console.log(formattedSearchResp);
+
+    const { data, error } = await supabase
+      .from("chats")
+      .insert([
+        {
+          libId: libId,
+          searchResult: formattedSearchResp,
+        },
+      ])
+      .select();
+    console.log(data);
   };
 
   return (
@@ -79,8 +107,9 @@ function DisplayResult({ searchInputRecord }) {
       </div>
 
       <div>
-        {activeTab === "Answer" ? 
-          <AnswerDisplay searchResult={searchResult} /> : null}
+        {activeTab === "Answer" ? (
+          <AnswerDisplay searchResult={searchResult} />
+        ) : null}
       </div>
     </div>
   );
