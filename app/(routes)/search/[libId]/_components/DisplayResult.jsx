@@ -72,7 +72,17 @@ function DisplayResult({ searchInputRecord }) {
         },
       ])
       .select();
-    console.log(data);
+    await GenerateAIResp(formattedSearchResp,data[0].id);
+  };
+
+  const GenerateAIResp = async (formattedSearchResp,recordId) => {
+    const result = await axios.post("/api/llm-model", {
+      searchInput: searchInputRecord?.searchInput,
+      searchResult: formattedSearchResp,
+      recordId: recordId,
+    });
+
+    console.log(result.data);
   };
 
   return (

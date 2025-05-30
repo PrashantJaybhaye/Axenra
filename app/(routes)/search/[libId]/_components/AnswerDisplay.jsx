@@ -21,7 +21,7 @@ function AnswerDisplay({ searchResult }) {
               />
               <h2 className="text-xs">{item?.profile?.long_name}</h2>
             </div>
-            <h2 className="line-clamp-2 text-xs" dangerouslySetInnerHTML={{ __html: item?.description }}></h2>
+            <h2 className="line-clamp-2 text-xs max-sm:hidden" dangerouslySetInnerHTML={{ __html: item?.description }}></h2>
           </div>
         ))}
       </div>

@@ -138,7 +138,7 @@ function ChatBoxInput() {
   return (
     <div className="flex flex-col h-screen w-full -ml-6 md:ml-0 md:items-center md:justify-center md:flex md:h-screen md:w-full">
       {/* Log In Button at top-right */}
-      <div className=" fixed top-2 right-3 z-[10]">
+      <div className=" fixed top-2 right-3 z-[10] mt-1">
         {!user && (
           <Button
             variant="outline"
