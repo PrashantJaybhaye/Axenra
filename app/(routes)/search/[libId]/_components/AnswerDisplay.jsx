@@ -1,30 +1,12 @@
-import Image from "next/image";
 import React from "react";
+import SourceList from "./SourceList";
+import DisplaySummary from "./DisplaySummary";
 
-function AnswerDisplay({ searchResult }) {
-  const webResult = searchResult?.web?.results;
+function AnswerDisplay({ chat }) {
   return (
     <div>
-      <div className="flex gap-2 flex-wrap mt-5">
-        {webResult?.map((item, index) => (
-          <div
-            key={index}
-            className="p-3 rounded-lg  bg-accent hover:bg-accent-foreground sm:w-[200px] w-[180px] cursor-pointer"
-            onClick={() => window.open(item?.profile?.url,'_blank')}
-          >
-            <div className="flex gap-2 items-center">
-              <Image
-                src={item?.profile?.img}
-                alt={item?.profile?.name}
-                width={20}
-                height={20}
-              />
-              <h2 className="text-xs">{item?.profile?.long_name}</h2>
-            </div>
-            <h2 className="line-clamp-2 text-xs max-sm:hidden" dangerouslySetInnerHTML={{ __html: item?.description }}></h2>
-          </div>
-        ))}
-      </div>
+      <SourceList webResult={chat?.searchResult} />
+      <DisplaySummary aiResp={chat?.aiResp}/>
     </div>
   );
 }

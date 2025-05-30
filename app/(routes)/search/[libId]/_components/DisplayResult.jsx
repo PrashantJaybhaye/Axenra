@@ -10,6 +10,8 @@ import axios from "axios";
 import { SEARCH_RESULT } from "../../../../../services/Shared";
 import { supabase } from "../../../../../services/Supabase";
 import { useParams } from "next/navigation";
+import ImageListTab from "./ImageListTab";
+import SourcesListTab from "./SourceListTab";
 
 const tabs = [
   {
@@ -21,10 +23,6 @@ const tabs = [
     icon: LucideImage,
   },
   {
-    label: "Videos",
-    icon: LucideVideo,
-  },
-  {
     label: "Sources",
     icon: LucideList,
     badge: 10,
@@ -33,22 +31,26 @@ const tabs = [
 
 function DisplayResult({ searchInputRecord }) {
   const [activeTab, setActiveTab] = useState("Answer");
-  const [searchResult, setSearchResult] = useState(SEARCH_RESULT);
+  const [searchResult, setSearchResult] = useState(searchInputRecord);
   const { libId } = useParams();
 
   useEffect(() => {
     // update this method
-    searchInputRecord && GetSearchApiResult();
+    searchInputRecord?.chats?.length == 0
+      ? GetSearchApiResult()
+      : GetSearchRecord();
+    setSearchResult(searchInputRecord);
+    console.log(searchInputRecord);
   }, [searchInputRecord]);
 
   const GetSearchApiResult = async () => {
-    // const result = await axios.post("/api/brave-search-api", {
-    //   searchInput: searchInputRecord?.searchInput,
-    //   searchType: searchInputRecord?.type,
-    // });
-    // console.log(result.data);
+    const result = await axios.post("/api/brave-search-api", {
+      searchInput: searchInputRecord?.searchInput,
+      searchType: searchInputRecord?.type,
+    });
+    console.log(result.data);
 
-    const searchResp = SEARCH_RESULT;
+    const searchResp = result.data;
 
     //save to DB
     const formattedSearchResp = searchResp?.web?.results?.map(
@@ -69,9 +71,11 @@ function DisplayResult({ searchInputRecord }) {
         {
           libId: libId,
           searchResult: formattedSearchResp,
+          userSearchInput: searchInputRecord?.searchInput,
         },
       ])
       .select();
+    await GetSearchRecord();
     await GenerateAIResp(formattedSearchResp, data[0].id);
   };
 
@@ -91,49 +95,67 @@ function DisplayResult({ searchInputRecord }) {
       });
 
       if (runResp.data?.data[0].status == "Completed") {
-        console.log('Completed!!!')
+        console.log("Completed!!!");
+        await GetSearchRecord();
         clearInterval(interval);
         //Get Updated Data fromm Database
       }
     }, 1000);
   };
 
+  const GetSearchRecord = async () => {
+    let { data: Library, error } = await supabase
+      .from("Library")
+      .select("*,chats(*)")
+      .eq("libId", libId);
+
+    setSearchResult(Library[0]);
+  };
+
   return (
     <div className="text-white mt-7">
-      <h2 className="font-medium text-xl sm:text-2xl md:text-3xl text-[#D2D2D1] line-clamp-2">
-        {searchInputRecord?.searchInput}
-      </h2>
+      {searchResult?.chats?.map((chat, index) => (
+        <div key={index} className="mt-7">
+          <h2 className="font-medium text-xl sm:text-2xl md:text-3xl text-[#D2D2D1] line-clamp-2">
+            {chat?.userSearchInput}
+          </h2>
+          <div className="flex flex-wrap md:flex-nowrap items-start md:items-center gap-3 md:gap-6 border-b border-gray-700 pb-3 mt-5">
+            {tabs.map(({ label, icon: Icon, badge }) => (
+              <button
+                key={label}
+                onClick={() => setActiveTab(label)}
+                className={`flex items-center gap-1 relative text-sm font-medium transition-colors ${
+                  activeTab === label
+                    ? "text-white"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                <span className="capitalize">{label}</span>
+                {badge && (
+                  <span className="ml-1 text-xs bg-gray-800 text-gray-200 px-1.5 py-0.5 rounded">
+                    {badge}
+                  </span>
+                )}
+                {activeTab === label && (
+                  <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-white rounded" />
+                )}
+              </button>
+            ))}
+          </div>
 
-      <div className="flex flex-wrap md:flex-nowrap items-start md:items-center gap-3 md:gap-6 border-b border-gray-700 pb-3 mt-5">
-        {tabs.map(({ label, icon: Icon, badge }) => (
-          <button
-            key={label}
-            onClick={() => setActiveTab(label)}
-            className={`flex items-center gap-1 relative text-sm font-medium transition-colors ${
-              activeTab === label
-                ? "text-white"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            <Icon className="w-4 h-4" />
-            <span className="capitalize">{label}</span>
-            {badge && (
-              <span className="ml-1 text-xs bg-gray-800 text-gray-200 px-1.5 py-0.5 rounded">
-                {badge}
-              </span>
-            )}
-            {activeTab === label && (
-              <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-white rounded" />
-            )}
-          </button>
-        ))}
-      </div>
-
-      <div>
-        {activeTab === "Answer" ? (
-          <AnswerDisplay searchResult={searchResult} />
-        ) : null}
-      </div>
+          <div>
+            {activeTab === "Answer" ? (
+              <AnswerDisplay chat={chat} />
+            ) : activeTab == "Images" ? (
+              <ImageListTab chat={chat} />
+            ) : activeTab == "Sources" ? (
+              <SourcesListTab chat={chat} />
+            ) : null}
+          </div>
+          <hr className="my-5 border-0 h-px bg-[#282D36]" />
+        </div>
+      ))}
     </div>
   );
 }
