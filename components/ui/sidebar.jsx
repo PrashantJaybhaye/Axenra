@@ -257,7 +257,7 @@ function SidebarTrigger({ className, onClick, ...props }) {
       {...props}
     >
       {isOpen ? (
-        <XIcon className="size-6 sm:size-5" />
+        <XIcon className="size-6 sm:size-5 max-md:hidden" />
       ) : (
         <PanelLeftIcon className="size-6 sm:size-5" />
       )}
