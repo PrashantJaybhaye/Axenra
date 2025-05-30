@@ -3,6 +3,7 @@ import {
   LucideList,
   LucideSparkle,
   LucideVideo,
+  LucideVideotape,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import AnswerDisplay from "./AnswerDisplay";
@@ -33,6 +34,7 @@ function DisplayResult({ searchInputRecord }) {
   const [activeTab, setActiveTab] = useState("Answer");
   const [searchResult, setSearchResult] = useState(searchInputRecord);
   const { libId } = useParams();
+  const [loadingSearch, setLoadingSearch] = useState(false);
 
   useEffect(() => {
     // update this method
@@ -44,6 +46,7 @@ function DisplayResult({ searchInputRecord }) {
   }, [searchInputRecord]);
 
   const GetSearchApiResult = async () => {
+    setLoadingSearch(true);
     const result = await axios.post("/api/brave-search-api", {
       searchInput: searchInputRecord?.searchInput,
       searchType: searchInputRecord?.type,
@@ -76,6 +79,7 @@ function DisplayResult({ searchInputRecord }) {
       ])
       .select();
     await GetSearchRecord();
+    setLoadingSearch(false);
     await GenerateAIResp(formattedSearchResp, data[0].id);
   };
 
@@ -114,6 +118,13 @@ function DisplayResult({ searchInputRecord }) {
 
   return (
     <div className="text-white mt-7">
+      {!searchResult?.chats && (
+        <div>
+          <div className="px-2 sm:px-4 md:px-8 max-w-3xl mx-auto w-full h-5 bg-neutral-800 animate-pulse rounded-md -ml-2 mt-4"></div>
+          <div className="px-2 sm:px-4 md:px-8 max-w-3xl mx-auto w-1/2 h-5 bg-neutral-800 animate-pulse rounded-md -ml-2 mt-2"></div>
+          <div className="px-2 sm:px-4 md:px-8 max-w-3xl mx-auto w-[70%] h-5 bg-neutral-800 animate-pulse rounded-md -ml-2 mt-2"></div>
+        </div>
+      )}
       {searchResult?.chats?.map((chat, index) => (
         <div key={index} className="mt-7">
           <h2 className="font-medium text-xl sm:text-2xl md:text-3xl text-[#D2D2D1] line-clamp-2">
@@ -146,7 +157,7 @@ function DisplayResult({ searchInputRecord }) {
 
           <div>
             {activeTab === "Answer" ? (
-              <AnswerDisplay chat={chat} />
+              <AnswerDisplay chat={chat} loadingSearch={loadingSearch} />
             ) : activeTab == "Images" ? (
               <ImageListTab chat={chat} />
             ) : activeTab == "Sources" ? (

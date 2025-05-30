@@ -26,9 +26,20 @@ export const llmModel = inngest.createFunction(
                         parts: [
                             {
                                 text:
-                                    `Depends on user input sources, Summarize and search about topic, ` +
-                                    `Give me markdown text proper formatting. User Input is: ${event.data.searchInput}\n\n` +
-                                    `Search Results: ${JSON.stringify(event.data.searchResult)}`
+                                    `
+You are a helpful assistant. Based on the information below:
+
+- Summarize the topic.
+- Format your response using proper **Markdown** (headings, bullet points, bold text, etc.).
+- Ensure the output is clean, readable, and structured.
+
+### User Input:
+${event.data.searchInput}
+
+### Search Results (from the web):
+${JSON.stringify(event.data.searchResult, null, 2)}
+
+Respond only in Markdown format.`
                             }
                         ]
                     }
