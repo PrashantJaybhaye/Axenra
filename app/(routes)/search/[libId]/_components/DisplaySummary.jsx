@@ -52,19 +52,19 @@ function DisplaySummary({ aiResp }) {
 
           ul: ({ node, ...props }) => (
             <ul
-              className="list-disc list-inside space-y-2 leading-relaxed pl-3"
+              className="list-disc list-inside space-y-2 leading-relaxed pl-5"
               {...props}
             />
           ),
 
           ol: ({ node, ...props }) => (
             <ol
-              className="list-decimal list-inside space-y-2 leading-relaxed pl-3"
+              className="list-decimal list-inside space-y-2 leading-relaxed pl-5"
               {...props}
             />
           ),
 
-          li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+          li: ({ node, ...props }) => <li className="mb-3" {...props} />,
 
           blockquote: ({ node, ...props }) => (
             <blockquote
