@@ -72,10 +72,10 @@ function DisplayResult({ searchInputRecord }) {
         },
       ])
       .select();
-    await GenerateAIResp(formattedSearchResp,data[0].id);
+    await GenerateAIResp(formattedSearchResp, data[0].id);
   };
 
-  const GenerateAIResp = async (formattedSearchResp,recordId) => {
+  const GenerateAIResp = async (formattedSearchResp, recordId) => {
     const result = await axios.post("/api/llm-model", {
       searchInput: searchInputRecord?.searchInput,
       searchResult: formattedSearchResp,
@@ -83,6 +83,19 @@ function DisplayResult({ searchInputRecord }) {
     });
 
     console.log(result.data);
+    const runId = result.data;
+
+    const interval = setInterval(async () => {
+      const runResp = await axios.post("/api/get-inngest-status", {
+        runId: runId,
+      });
+
+      if (runResp.data?.data[0].status == "Completed") {
+        console.log('Completed!!!')
+        clearInterval(interval);
+        //Get Updated Data fromm Database
+      }
+    }, 1000);
   };
 
   return (
