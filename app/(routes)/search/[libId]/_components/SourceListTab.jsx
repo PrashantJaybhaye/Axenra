@@ -4,7 +4,7 @@ import React from "react";
 function SourceListTab({ chat }) {
   return (
     <div className="space-y-4 mt-4">
-      {chat?.searchResult.map((item, index) => (
+      {chat?.searchResult.slice(0, 10).map((item, index) => (
         <div
           key={index}
           className="bg-zinc-900 rounded-lg p-4 border border-zinc-800 shadow-sm hover:shadow-md transition-all duration-200"

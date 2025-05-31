@@ -115,13 +115,14 @@ function DisplayResult({ searchInputRecord }) {
     let { data: Library, error } = await supabase
       .from("Library")
       .select("*,chats(*)")
-      .eq("libId", libId);
+      .eq("libId", libId)
+      .order("id", { foreignTable: "chats", ascending: true });
 
     setSearchResult(Library[0]);
   };
 
   return (
-    <div className="text-white mt-7">
+    <div className="text-white mb-55">
       {!searchResult?.chats && (
         <div>
           <div className="px-2 sm:px-4 md:px-8 max-w-3xl mx-auto w-full h-5 bg-neutral-800 animate-pulse rounded-md -ml-2 mt-4"></div>
@@ -130,7 +131,7 @@ function DisplayResult({ searchInputRecord }) {
         </div>
       )}
       {searchResult?.chats?.map((chat, index) => (
-        <div key={index} className="mt-7">
+        <div key={index} className="mt-10">
           <h2 className="font-medium text-xl sm:text-2xl md:text-3xl text-[#D2D2D1] line-clamp-2">
             {chat?.userSearchInput}
           </h2>
@@ -158,7 +159,8 @@ function DisplayResult({ searchInputRecord }) {
               </button>
             ))}
           </div>
-
+          
+            {/* activetab */}
           <div>
             {activeTab === "Answer" ? (
               <AnswerDisplay chat={chat} loadingSearch={loadingSearch} />

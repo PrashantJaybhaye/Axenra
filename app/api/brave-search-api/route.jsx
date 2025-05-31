@@ -8,8 +8,9 @@ export async function POST(req) {
   if (searchInput) {
     const result = await axios.get(
       "https://api.search.brave.com/res/v1/web/search?q=" +
-        searchInput +
-        "&count=10",
+        searchInput 
+        // + "&count=10"
+        ,
       {
         headers: {
           Accept: "application/json",

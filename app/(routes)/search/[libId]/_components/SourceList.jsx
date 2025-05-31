@@ -20,16 +20,6 @@ function SourceList({ webResult, loadingSearch }) {
           ></h2>
         </div>
       ))}
-      {loadingSearch && (
-        <div className="flex flex-wrap gap-2 my-5">
-          {[1, 2, 3, 4, 5].map((item, index) => (
-            <div
-              className="sm:w-[200px] w-[180px] h-[80px] rounded-lg bg-neutral-800 animate-pulse"
-              key={index}
-            ></div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
