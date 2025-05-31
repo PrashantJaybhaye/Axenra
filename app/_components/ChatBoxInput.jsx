@@ -99,9 +99,9 @@ function ChatBoxInput() {
         },
       ])
       .select();
-    setLoading(false);
-
-    router.push("/search/" + libId);
+      
+      router.push("/search/" + libId);
+      setLoading(false);
     console.log(data[0]);
   };
 
@@ -199,7 +199,7 @@ function ChatBoxInput() {
           />
         </div>
         {/* Input box at bottom on mobile, centered on md+ */}
-        <div className="p-2 w-full max-w-2xl rounded-2xl bg-[#202222] border-[#303130] border-2 mt-2 max-sm:mb-4 max-sm:fixed max-sm:bottom-0 max-sm:left-1/2 max-sm:-translate-x-1/2 max-sm:w-[98vw] max-sm:rounded-b-none max-sm:rounded-t-2xl max-sm:border-b-0">
+        <div className="p-2 w-full max-w-2xl rounded-2xl bg-[#202222] border-[#303130] border-2 mt-2 max-sm:pb-4 max-sm:fixed max-sm:bottom-0 max-sm:left-1/2 max-sm:-translate-x-1/2 max-sm:w-[98vw] max-sm:rounded-b-none max-sm:rounded-t-2xl max-sm:border-b-0">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 sm:justify-between sm:items-end">
             <Tabs defaultValue="Search" className="w-full sm:w-[400px]">
               <TabsContent value="Search">
@@ -340,7 +340,10 @@ function ChatBoxInput() {
                   }}
                   disabled={loading}
                 >
-                  {!userSearchInput ? (
+                  {loading ? (
+                    // Spinner for loading state
+                    <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  ) : !userSearchInput ? (
                     <AudioLines className="text-white size-4 sm:size-5" />
                   ) : (
                     <ArrowRight
