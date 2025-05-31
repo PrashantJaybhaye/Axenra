@@ -11,7 +11,7 @@ function SourceList({ webResult, loadingSearch }) {
           onClick={() => window.open(item?.url, "_blank")}
         >
           <div className="flex gap-2 items-center">
-            <Image src={item?.img} alt={item?.title} width={20} height={20} />
+            <Image src={item?.img} alt={''} width={20} height={20} />
             <h2 className="text-xs">{item?.long_namme}</h2>
           </div>
           <h2

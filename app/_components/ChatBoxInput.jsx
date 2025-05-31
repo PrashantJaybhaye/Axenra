@@ -99,9 +99,9 @@ function ChatBoxInput() {
         },
       ])
       .select();
-      
-      router.push("/search/" + libId);
-      setLoading(false);
+
+    await router.push("/search/" + libId);
+    setLoading(false);
     console.log(data[0]);
   };
 

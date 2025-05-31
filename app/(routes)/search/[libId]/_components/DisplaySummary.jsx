@@ -4,13 +4,6 @@ import ReactMarkDown from "react-markdown";
 function DisplaySummary({ aiResp }) {
   return (
     <div className="px-2 sm:px-4 md:px-8 max-w-3xl mx-auto w-full -ml-2 sm:-ml-6 mt-4">
-      {!aiResp && (
-        <div>
-          <div className="px-2 sm:px-4 md:px-8 max-w-3xl mx-auto w-full h-5 bg-neutral-800 animate-pulse rounded-md -ml-2 mt-4"></div>
-          <div className="px-2 sm:px-4 md:px-8 max-w-3xl mx-auto w-1/2 h-5 bg-neutral-800 animate-pulse rounded-md -ml-2 mt-2"></div>
-          <div className="px-2 sm:px-4 md:px-8 max-w-3xl mx-auto w-[70%] h-5 bg-neutral-800 animate-pulse rounded-md -ml-2 mt-2"></div>
-        </div>
-      )}
       <ReactMarkDown
         components={{
           h1: ({ node, ...props }) => (

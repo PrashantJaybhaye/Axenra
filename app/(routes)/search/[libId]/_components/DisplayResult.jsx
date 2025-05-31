@@ -1,9 +1,11 @@
 import {
+  Loader2Icon,
   LucideImage,
   LucideList,
   LucideSparkle,
   LucideVideo,
   LucideVideotape,
+  Send,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import AnswerDisplay from "./AnswerDisplay";
@@ -13,6 +15,7 @@ import { supabase } from "../../../../../services/Supabase";
 import { useParams } from "next/navigation";
 import ImageListTab from "./ImageListTab";
 import SourcesListTab from "./SourceListTab";
+import { Button } from "../../../../../components/ui/button";
 
 const tabs = [
   {
@@ -35,6 +38,7 @@ function DisplayResult({ searchInputRecord }) {
   const [searchResult, setSearchResult] = useState(searchInputRecord);
   const { libId } = useParams();
   const [loadingSearch, setLoadingSearch] = useState(false);
+  const [userInput, setUserInput] = useState();
 
   useEffect(() => {
     // update this method
@@ -48,8 +52,8 @@ function DisplayResult({ searchInputRecord }) {
   const GetSearchApiResult = async () => {
     setLoadingSearch(true);
     const result = await axios.post("/api/brave-search-api", {
-      searchInput: searchInputRecord?.searchInput,
-      searchType: searchInputRecord?.type,
+      searchInput: userInput ?? searchInputRecord?.searchInput,
+      searchType: searchInputRecord?.type ?? "Search",
     });
     console.log(result.data);
 
@@ -74,7 +78,7 @@ function DisplayResult({ searchInputRecord }) {
         {
           libId: libId,
           searchResult: formattedSearchResp,
-          userSearchInput: searchInputRecord?.searchInput,
+          userSearchInput: userInput ?? searchInputRecord?.searchInput,
         },
       ])
       .select();
@@ -167,6 +171,30 @@ function DisplayResult({ searchInputRecord }) {
           <hr className="my-5 border-0 h-px bg-[#282D36]" />
         </div>
       ))}
+
+      {/* for searching related data */}
+      <div className="fixed bottom-6 bg-[#303030] w-full max-w-sm sm:max-w-lg lg:max-w-2xl xl:max-w-3xl border border-accent-foreground rounded-xl shadow-lg p-3 px-4 flex items-center space-x-3 z-50">
+        <input
+          type="text"
+          placeholder="Type anything..."
+          className="flex-1 bg-transparent text-base  outline-none"
+          onChange={(e) => setUserInput(e.target.value)}
+        />
+        {userInput && (
+          <Button
+            size="icon"
+            className=""
+            onClick={GetSearchApiResult}
+            disabled={loadingSearch}
+          >
+            {loadingSearch ? (
+              <Loader2Icon className="animate-spin" />
+            ) : (
+              <Send />
+            )}
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
