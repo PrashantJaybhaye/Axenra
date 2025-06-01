@@ -103,12 +103,8 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
     background: #191a1a;
-    color: var(--foreground);
     position: relative;
     min-height: 100vh;
     z-index: 0;
