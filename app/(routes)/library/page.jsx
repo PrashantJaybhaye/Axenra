@@ -35,7 +35,7 @@ function Library() {
 
   return (
     <div className="mt-15 px-2 sm:px-6 md:px-12 lg:px-32 xl:px-52 max-sm:-ml-10">
-      <h2 className="font-bold text-2xl sm:text-3xl md:text-3xl text-[#E8E8E6] mb-6">
+      <h2 className="font-bold text-2xl sm:text-2xl md:text-2xl text-[#E8E8E6] mb-6">
         Your Library
       </h2>
 
@@ -49,15 +49,15 @@ function Library() {
             >
               <div className="flex justify-between items-start gap-4">
                 <div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-semibold text-[#E8E8E6] line-clamp-1">
+                  <h3 className="text-base sm:text-lg md:text-lg font-semibold text-[#E8E8E6] line-clamp-1">
                     {item?.searchInput}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-400 mt-1">
+                  <p className="text-xs sm:text-xs text-gray-400 mt-1">
                     {moment(item?.created_at).fromNow()}
                   </p>
                 </div>
                 <SquareArrowOutUpRight
-                  size={20}
+                  size={18}
                   className="text-gray-500 group-hover:text-[#E8E8E6] transition"
                 />
               </div>
