@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../../services/Supabase";
-import { useUser } from "@clerk/nextjs";
+import { useUser, UserButton } from "@clerk/nextjs";
 import moment from "moment";
 import { SquareArrowOutUpRight } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -35,6 +35,28 @@ function Library() {
 
   return (
     <div className="mt-15 px-2 sm:px-6 md:px-12 lg:px-32 xl:px-52 max-sm:-ml-10">
+      {/* Absolute Top Right User Info */}
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
+        <span className="text-base font-bold text-gray-400 truncate max-w-[120px]">
+          {user?.username || user?.fullName || "User"}
+        </span>
+        <UserButton
+          appearance={{
+            elements: {
+              rootBox: "flex items-center gap-3",
+              userButtonAvatarBox:
+                "h-10 w-10 rounded-full ring-2 ring-accent ring-offset-2 ring-offset-neutral-900",
+              userButtonPopoverCard:
+                "bg-neutral-900 border border-neutral-700 shadow-lg rounded-lg p-2 w-48",
+              userButtonPopoverActionButton:
+                "text-sm text-white hover:bg-neutral-800 px-4 py-2 rounded-md text-left w-full transition-colors",
+              userButtonPopoverActionButton__signOut:
+                "text-red-500 hover:text-red-600 font-semibold",
+            },
+          }}
+        />
+      </div>
+
       <h2 className="font-bold text-2xl sm:text-2xl md:text-2xl text-[#E8E8E6] mb-6">
         Your Library
       </h2>
