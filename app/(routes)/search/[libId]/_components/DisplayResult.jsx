@@ -170,8 +170,8 @@ function DisplayResult({ searchInputRecord }) {
       {searchResult?.chats?.map((chat, index) => (
         <div key={index} className="mt-8 sm:mt-8">
           {/* Tabs and content */}
-          <div className="mb-4 px-1">
-            <h2 className="font-medium text-2xl sm:text-3xl md:text-3xl text-[#e0e0e0] tracking-tight break-words">
+          <div className="mb-4 px-1 ml-1.5">
+            <h2 className="font-medium text-2xl sm:text-3xl md:text-3xl text-[#e0e0e0] w-[98%] tracking-tight break-words">
               {chat?.userSearchInput}
             </h2>
           </div>
@@ -225,7 +225,7 @@ function DisplayResult({ searchInputRecord }) {
               ) : null}
             </div>
           </div>
-          {/* <hr className="my-2 sm:my-3 border-0 h-px bg-[#23272b]" /> */}
+          <hr className="my-2 sm:my-3 border-0 h-px bg-[#23272b]" />
         </div>
       ))}
 

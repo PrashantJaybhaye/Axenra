@@ -53,14 +53,14 @@ function DisplaySummary({ aiResp }) {
 
           ul: ({ node, ...props }) => (
             <ul
-              className="list-disc list-inside space-y-2 leading-relaxed pl-5"
+              className="list-disc space-y-2 leading-relaxed pl-5"
               {...props}
             />
           ),
 
           ol: ({ node, ...props }) => (
             <ol
-              className="list-decimal list-inside space-y-2 leading-relaxed pl-5"
+              className="list-decimal space-y-2 leading-relaxed pl-5"
               {...props}
             />
           ),
