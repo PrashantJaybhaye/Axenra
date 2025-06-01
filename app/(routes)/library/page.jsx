@@ -7,7 +7,7 @@ import { SquareArrowOutUpRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Sparkles } from "lucide-react";
 
-function Page() {
+function Library() {
   const { user } = useUser();
   const [libraryHistory, setLibraryHistory] = useState([]);
   const router = useRouter();
@@ -34,8 +34,8 @@ function Page() {
   };
 
   return (
-    <div className="mt-20 px-2 sm:px-6 md:px-12 lg:px-32 xl:px-52 max-sm:-ml-10">
-      <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl text-[#E8E8E6] mb-6">
+    <div className="mt-15 px-2 sm:px-6 md:px-12 lg:px-32 xl:px-52 max-sm:-ml-10">
+      <h2 className="font-bold text-2xl sm:text-3xl md:text-3xl text-[#E8E8E6] mb-6">
         Your Library
       </h2>
 
@@ -89,4 +89,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default Library;
