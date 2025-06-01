@@ -122,55 +122,110 @@ function DisplayResult({ searchInputRecord }) {
   };
 
   return (
-    <div className="text-white mb-55">
+    <div className="text-white mb-50 -ml-4">
       {!searchResult?.chats && (
-        <div>
-          <div className="px-2 sm:px-4 md:px-8 max-w-3xl mx-auto w-full h-5 bg-neutral-800 animate-pulse rounded-md -ml-2 mt-4"></div>
-          <div className="px-2 sm:px-4 md:px-8 max-w-3xl mx-auto w-1/2 h-5 bg-neutral-800 animate-pulse rounded-md -ml-2 mt-2"></div>
-          <div className="px-2 sm:px-4 md:px-8 max-w-3xl mx-auto w-[70%] h-5 bg-neutral-800 animate-pulse rounded-md -ml-2 mt-2"></div>
+        <div className="p-4 space-y-6 max-w-md md:max-w-4xl lg:max-w-6xl mx-auto mt-6">
+          {/* Top Bar Skeleton */}
+          <div className="h-5 w-20 bg-neutral-800 animate-pulse rounded-md"></div>
+
+          {/* Title Skeleton */}
+          <div className="h-6 w-3/4 bg-neutral-800 animate-pulse rounded-md"></div>
+
+          {/* Tabs Skeleton */}
+          <div className="flex space-x-3">
+            <div className="h-6 w-16 bg-neutral-800 animate-pulse rounded-md"></div>
+            <div className="h-6 w-16 bg-neutral-800 animate-pulse rounded-md"></div>
+            <div className="h-6 w-16 bg-neutral-800 animate-pulse rounded-md"></div>
+          </div>
+
+          {/* Source Links Skeleton (Responsive Grid) */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-8 w-full bg-neutral-800 animate-pulse rounded-md"
+              ></div>
+            ))}
+          </div>
+
+          {/* Section Title Skeleton */}
+          <div className="h-5 w-2/3 bg-neutral-800 animate-pulse rounded-md mt-4"></div>
+
+          {/* Paragraph/Description Skeleton */}
+          <div className="space-y-2">
+            <div className="h-4 w-full bg-neutral-800 animate-pulse rounded-md"></div>
+            <div className="h-4 w-5/6 bg-neutral-800 animate-pulse rounded-md"></div>
+            <div className="h-4 w-3/4 bg-neutral-800 animate-pulse rounded-md"></div>
+          </div>
+
+          {/* Key Considerations */}
+          <div className="mt-4 space-y-3">
+            <div className="h-5 w-2/3 bg-neutral-800 animate-pulse rounded-md"></div>
+            <div className="h-4 w-full bg-neutral-800 animate-pulse rounded-md"></div>
+            <div className="h-4 w-11/12 bg-neutral-800 animate-pulse rounded-md"></div>
+            <div className="h-4 w-10/12 bg-neutral-800 animate-pulse rounded-md"></div>
+          </div>
         </div>
       )}
       {searchResult?.chats?.map((chat, index) => (
-        <div key={index} className="mt-10">
-          <h2 className="font-medium text-xl sm:text-2xl md:text-3xl text-[#D2D2D1] line-clamp-2">
-            {chat?.userSearchInput}
-          </h2>
-          <div className="flex flex-wrap md:flex-nowrap items-start md:items-center gap-3 md:gap-6 border-b border-gray-700 pb-3 mt-5">
-            {tabs.map(({ label, icon: Icon, badge }) => (
-              <button
-                key={label}
-                onClick={() => setActiveTab(label)}
-                className={`flex items-center gap-1 relative text-sm font-medium transition-colors ${
-                  activeTab === label
-                    ? "text-white"
-                    : "text-gray-400 hover:text-white"
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span className="capitalize">{label}</span>
-                {badge && (
-                  <span className="ml-1 text-xs bg-gray-800 text-gray-200 px-1.5 py-0.5 rounded">
-                    {badge}
+        <div key={index} className="mt-8 sm:mt-8">
+          {/* Tabs and content */}
+          <div className="mb-4 px-1">
+            <h2 className="font-medium text-2xl sm:text-3xl md:text-3xl text-[#e0e0e0] tracking-tight break-words">
+              {chat?.userSearchInput}
+            </h2>
+          </div>
+          <div className="bg-transparent rounded-lg border border-[#2A2B2B] shadow p-3 sm:p-4 mb-3 sm:mb-4">
+            {/* Always show user input above tabs */}
+            {/* Tab navigation */}
+            <div className="flex flex-wrap items-center gap-1 mb-3 sm:mb-4 border-b border-[#292d33]">
+              {tabs.map(({ label, icon: Icon, badge }) => (
+                <button
+                  key={label}
+                  onClick={() => setActiveTab(label)}
+                  className={`relative flex items-center gap-1 sm:gap-2 px-3 py-1.5 rounded-t-md transition-colors focus:outline-none
+                    ${
+                      activeTab === label
+                        ? "bg-[#282c31] text-white font-semibold shadow-inner"
+                        : "bg-transparent text-gray-400 hover:text-white"
+                    }
+                  `}
+                  aria-selected={activeTab === label}
+                  aria-controls={`tabpanel-${label}`}
+                  role="tab"
+                  tabIndex={activeTab === label ? 0 : -1}
+                >
+                  <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="capitalize text-xs sm:text-base">
+                    {label}
                   </span>
-                )}
-                {activeTab === label && (
-                  <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-white rounded" />
-                )}
-              </button>
-            ))}
+                  {badge && (
+                    <span className="ml-1 text-[10px] sm:text-xs bg-[#23272b] text-gray-300 px-1.5 sm:px-2 py-0.5 rounded-full border border-[#292d33]">
+                      {badge}
+                    </span>
+                  )}
+                  {activeTab === label && (
+                    <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 rounded-t" />
+                  )}
+                </button>
+              ))}
+            </div>
+            {/* Tab content */}
+            <div
+              id={`tabpanel-${activeTab}`}
+              role="tabpanel"
+              className="bg-transparent rounded-b-lg p-1 sm:p-2 min-h-[60px] sm:min-h-[80px] transition-all"
+            >
+              {activeTab === "Answer" ? (
+                <AnswerDisplay chat={chat} loadingSearch={loadingSearch} />
+              ) : activeTab === "Images" ? (
+                <ImageListTab chat={chat} />
+              ) : activeTab === "Sources" ? (
+                <SourcesListTab chat={chat} />
+              ) : null}
+            </div>
           </div>
-          
-            {/* activetab */}
-          <div>
-            {activeTab === "Answer" ? (
-              <AnswerDisplay chat={chat} loadingSearch={loadingSearch} />
-            ) : activeTab == "Images" ? (
-              <ImageListTab chat={chat} />
-            ) : activeTab == "Sources" ? (
-              <SourcesListTab chat={chat} />
-            ) : null}
-          </div>
-          <hr className="my-5 border-0 h-px bg-[#282D36]" />
+          {/* <hr className="my-2 sm:my-3 border-0 h-px bg-[#23272b]" /> */}
         </div>
       ))}
 

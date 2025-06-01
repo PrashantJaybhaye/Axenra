@@ -21,7 +21,7 @@ const formatShortTimeAgo = (date) => {
 
 function Header({ searchInputRecord }) {
   return (
-    <div className="w-full p-3 sm:p-4 sm:border-b sm:border-gray-400 text-white flex flex-row justify-between items-center gap-4 ">
+    <div className="w-full p-3 sm:p-4 sm:border-b sm:border-accent-foreground text-white flex flex-row justify-between items-center gap-4 ">
       {/* User Info & Created Time */}
       <div className="flex items-center gap-2 -ml-5">
         <UserButton />

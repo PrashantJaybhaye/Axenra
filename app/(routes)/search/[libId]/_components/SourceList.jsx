@@ -7,12 +7,12 @@ function SourceList({ webResult, loadingSearch }) {
       {webResult?.slice(0, 5).map((item, index) => (
         <div
           key={index}
-          className="p-3 rounded-lg  bg-accent hover:bg-accent-foreground sm:w-[200px] w-[180px] cursor-pointer"
+          className="p-3 rounded-lg  bg-accent hover:bg-accent-foreground sm:w-[200px] w-[170px] cursor-pointer"
           onClick={() => window.open(item?.url, "_blank")}
         >
           <div className="flex gap-2 items-center">
             <Image src={item?.img} alt={''} width={20} height={20} />
-            <h2 className="text-xs">{item?.long_namme}</h2>
+            <h2 className="text-xs line-clamp-1">{item?.long_namme}</h2>
           </div>
           <h2
             className="line-clamp-2 text-xs max-sm:hidden"
