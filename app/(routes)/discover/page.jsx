@@ -1,6 +1,14 @@
 "use client";
 import axios from "axios";
-import { Cpu, Drama, IndianRupee, Loader2Icon, Medal, Palette, Star } from "lucide-react";
+import {
+  Cpu,
+  Drama,
+  IndianRupee,
+  Loader2Icon,
+  Medal,
+  Palette,
+  Star,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { SEARCH_RESULT } from "../../../services/Shared";
 import NewsCard from "./_components/NewsCard";
@@ -35,7 +43,7 @@ const options = [
 
 function Discover() {
   const [selectedOption, setSelectedOption] = useState("Top");
-  const [latestNews, setLatestNews] = useState(SEARCH_RESULT?.web?.results);
+  const [latestNews, setLatestNews] = useState();
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
 
@@ -50,7 +58,8 @@ function Discover() {
         searchInput: selectedOption + "Latest News & Updates",
         searchType: "Search",
       });
-      // setLatestNews(result.data);
+      const webSearchResult = result?.data?.web?.results;
+      setLatestNews(webSearchResult);
     } catch (e) {
       // Optionally handle error
     }
@@ -84,7 +93,9 @@ function Discover() {
       <div className="fixed top-2 right-2 z-50">
         <div className="flex items-center gap-3 bg-neutral-900/80 border border-neutral-700 shadow-lg rounded-xl px-4 py-2 backdrop-blur-md">
           {user === undefined ? (
-            <div  className="animate-spin"><Loader2Icon/></div>
+            <div className="animate-spin">
+              <Loader2Icon />
+            </div>
           ) : (
             <span className="text-base font-bold text-gray-400 truncate max-w-[120px]">
               {user?.username || user?.fullName}
@@ -158,15 +169,16 @@ function Discover() {
             ))}
           </>
         )}
-        {!loading && latestNews?.map((news, index) => {
-          // 0-based index: first card full width, next 3 in 3 columns, repeat
-          const mod = index % 4;
-          return (
-            <div key={index} className={mod === 0 ? "col-span-full" : ""}>
-              <NewsCard news={news} />
-            </div>
-          );
-        })}
+        {!loading &&
+          latestNews?.map((news, index) => {
+            // 0-based index: first card full width, next 3 in 3 columns, repeat
+            const mod = index % 4;
+            return (
+              <div key={index} className={mod === 0 ? "col-span-full" : ""}>
+                <NewsCard news={news} />
+              </div>
+            );
+          })}
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import { ImageOff } from "lucide-react";
 import React from "react";
 
 function NewsCard({ news }) {
@@ -9,8 +10,8 @@ function NewsCard({ news }) {
         <div className="flex items-center gap-2">
           {news?.profile?.img && (
             <img
-              src={news.profile.img}
-              alt={news.profile.name}
+              src={news?.profile?.img}
+              alt={news?.profile?.name}
               className="w-7 h-7 rounded-full object-cover"
               loading="lazy"
             />
@@ -20,7 +21,7 @@ function NewsCard({ news }) {
           </span>
         </div>
         {news?.age && (
-          <span className="text-xs text-gray-500">{news.age}</span>
+          <span className="text-xs text-gray-500">{news?.age}</span>
         )}
       </div>
 
@@ -31,7 +32,7 @@ function NewsCard({ news }) {
       >
         {news?.thumbnail?.original ? (
           <img
-            src={news.thumbnail.original}
+            src={news?.thumbnail?.original}
             alt={news?.title}
             width={600}
             height={400}
@@ -39,27 +40,8 @@ function NewsCard({ news }) {
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-48 sm:h-56 flex flex-col items-center justify-center text-gray-500 bg-[#2e2f2f] mt-3 rounded-2xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10 mb-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 11l4 4 4-4"
-              />
-            </svg>
+          <div className="w-full h-48 sm:h-56 flex flex-col items-center justify-center text-neutral-500 bg-[#2e2f2f] mt-3 rounded-2xl">
+            <ImageOff/>
             <span className="text-sm">No Image Available</span>
           </div>
         )}
@@ -93,7 +75,7 @@ function NewsCard({ news }) {
             rel="noopener noreferrer"
             className="text-xs text-gray-500 hover:underline text-nowrap"
           >
-            {news.profile.long_name}
+            {news.profile?.long_name}
           </a>
         )}
       </div>
