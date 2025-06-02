@@ -47,6 +47,14 @@ export function AppSidebar() {
   const path = usePathname();
   const { user } = useUser();
 
+  // Helper to determine if a menu item is active
+  const isMenuActive = (menuPath) => {
+    if (menuPath === "/") {
+      return path === "/";
+    }
+    return path?.startsWith(menuPath) && menuPath !== "/";
+  };
+
   return (
     <Sidebar className="bg-[#202222] border-r border-[#232323] min-h-screen">
       <SidebarHeader className="bg-[#202222] flex items-center justify-center py-2 sm:py-3 md:py-5 border-b border-[#232323]">
@@ -55,7 +63,9 @@ export function AppSidebar() {
           alt="logo"
           width={140}
           height={100}
-          className="w-[120px] sm:w-[140px] md:w-[180px]"
+          className={`w-[180px] ${
+            path === "/" ? "brightness-125 saturate-150" : ""
+          }`}
         />
       </SidebarHeader>
       <SidebarContent className="bg-[#202222]">
@@ -70,17 +80,17 @@ export function AppSidebar() {
                 <SidebarMenuItem key={index}>
                   <SidebarMenuButton
                     asChild
-                    className={`p-2 sm:p-3 md:p-5 md:py-5 hover:bg-[#2D2F2F] hover:font-bold text-white ${
-                      path?.includes(menu.path) && "font-bold text-primary"
+                    className={`p-5 py-5 hover:bg-[#2D2F2F] hover:font-bold text-white ${
+                      isMenuActive(menu.path) && "font-bold text-primary"
                     }
                     `}
                   >
                     <a
                       href={menu.path}
-                      className="flex items-center gap-2 sm:gap-3"
+                      className="flex items-center gap-1 sm:gap-3"
                     >
-                      <menu.icon className="h-4 w-4 sm:h-6 sm:w-6 md:h-8 md:w-8" />
-                      <span className="text-sm sm:text-base md:text-[1.1rem]">
+                      <menu.icon className="h-6 w-6 md:h-8 md:w-8" />
+                      <span className="text-[1.1rem]">
                         {menu.title}
                       </span>
                     </a>
@@ -90,13 +100,13 @@ export function AppSidebar() {
             </SidebarMenu>
             {!user ? (
               <SignUpButton mode="modal">
-                <Button className="rounded-full mx-1 sm:mx-2 md:mx-4 my-2 sm:my-3 md:my-4 w-[calc(100%-0.5rem)] sm:w-[calc(100%-1rem)] md:w-[calc(100%-2rem)] text-sm sm:text-base">
+                <Button className="rounded-full mx-1 sm:mx-2 md:mx-4 my-2 sm:my-3 md:my-4 w-[calc(100%-0.5rem)] sm:w-[calc(100%-1rem)] md:w-[calc(100%-2rem)] text-base sm:text-base">
                   Sign Up
                 </Button>
               </SignUpButton>
             ) : (
               <SignOutButton>
-                <Button className="rounded-full mx-1 sm:mx-2 md:mx-4 my-2 sm:my-3 md:my-4 w-[calc(100%-0.5rem)] sm:w-[calc(100%-1rem)] md:w-[calc(100%-2rem)] text-sm sm:text-base">
+                <Button className="rounded-full mx-1 sm:mx-2 md:mx-4 my-2 sm:my-3 md:my-4 w-[calc(100%-0.5rem)] sm:w-[calc(100%-1rem)] md:w-[calc(100%-2rem)] text-base sm:text-base">
                   Logout
                 </Button>
               </SignOutButton>

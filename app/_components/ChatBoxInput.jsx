@@ -117,19 +117,6 @@ function ChatBoxInput() {
             <div></div>
             <div></div>
           </div>
-          <span className="relative inline-block text-center text-white/90 text-base sm:text-lg md:text-2xl font-semibold tracking-[0.15em] uppercase">
-            Launching&nbsp;
-            <span
-              className="inline-block text-transparent bg-clip-text underline underline-offset-4 decoration-primary"
-              style={{
-                backgroundImage:
-                  "linear-gradient(90deg, oklch(0.7009 0.201198 44.7666), oklch(0.8 0.1 44.7666))",
-              }}
-            >
-              Axenra
-            </span>
-            <span className="ml-1 animate-ellipsis"></span>
-          </span>
         </div>
       </div>
     );
@@ -152,7 +139,7 @@ function ChatBoxInput() {
         {user && (
           <div className="flex items-center gap-3 px-4 py-2">
             <span className="text-base font-bold text-gray-400 truncate max-w-[120px]">
-              {user.username || user.fullName || "User"}
+              {user.username || user.fullName}
             </span>
             <UserButton
               appearance={{
