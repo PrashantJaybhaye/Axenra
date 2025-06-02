@@ -1,5 +1,4 @@
 import axios from "axios";
-import { error } from "console";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -20,7 +19,7 @@ export async function POST(req) {
       }
     );
 
-    console.log(result.data);
+
 
     return NextResponse.json(result.data);
   } else {

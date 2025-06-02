@@ -8,7 +8,7 @@ import DisplayResult from "./_components/DisplayResult";
 function SearchQueryResult() {
   const { libId } = useParams();
   const [searchInputRecord, setSearchInputRecord] = useState();
-  console.log(libId);
+
 
   useEffect(() => {
     GetSearchQueryRecord();
@@ -20,7 +20,7 @@ function SearchQueryResult() {
       .select("*,chats(*)")
       .eq("libId", libId);
 
-    console.log(Library[0]);
+
     setSearchInputRecord(Library[0]);
   };
   

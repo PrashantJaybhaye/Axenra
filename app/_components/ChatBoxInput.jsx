@@ -102,7 +102,7 @@ function ChatBoxInput() {
 
     await router.push("/search/" + libId);
     setLoading(false);
-    console.log(data[0]);
+
   };
 
   if (pageLoading) {

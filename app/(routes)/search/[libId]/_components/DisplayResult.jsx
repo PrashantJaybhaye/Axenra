@@ -46,7 +46,7 @@ function DisplayResult({ searchInputRecord }) {
       ? GetSearchApiResult()
       : GetSearchRecord();
     setSearchResult(searchInputRecord);
-    console.log(searchInputRecord);
+
   }, [searchInputRecord]);
 
   const GetSearchApiResult = async () => {
@@ -55,7 +55,7 @@ function DisplayResult({ searchInputRecord }) {
       searchInput: userInput ?? searchInputRecord?.searchInput,
       searchType: searchInputRecord?.type ?? "Search",
     });
-    console.log(result.data);
+
 
     const searchResp = result.data;
 
@@ -70,7 +70,7 @@ function DisplayResult({ searchInputRecord }) {
         thumbnail: item?.thumbnail?.src,
       })
     );
-    console.log(formattedSearchResp);
+
 
     const { data, error } = await supabase
       .from("chats")
@@ -94,7 +94,7 @@ function DisplayResult({ searchInputRecord }) {
       recordId: recordId,
     });
 
-    console.log(result.data);
+
     const runId = result.data;
 
     const interval = setInterval(async () => {
@@ -103,7 +103,7 @@ function DisplayResult({ searchInputRecord }) {
       });
 
       if (runResp.data?.data[0].status == "Completed") {
-        console.log("Completed!!!");
+
         await GetSearchRecord();
         clearInterval(interval);
         //Get Updated Data fromm Database

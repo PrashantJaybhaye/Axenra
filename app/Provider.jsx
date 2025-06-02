@@ -18,7 +18,7 @@ function Provider({ children }) {
       .select("*")
       .eq("email", user?.primaryEmailAddress.emailAddress);
 
-    console.log(Users);
+
     if (Users.length === 0) {
       const { data, error } = await supabase
         .from("Users")
